@@ -2,7 +2,6 @@ use smart_home::{
     devices::{device::Device, smart_socket::SmartSocket, thermometer::SmartThermometer},
     house::House,
     report_provider::DeviceInfoProvider,
-    room::RoomDevice,
 };
 
 // Пользовательские поставщики информации об устройствах.

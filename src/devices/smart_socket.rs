@@ -48,3 +48,23 @@ impl Device for SmartSocket {
         &self.description
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_smart_socket() {
+        let mut smart_socket = SmartSocket::new("Socket", "A smart socket", 100);
+        assert_eq!(smart_socket.get_name(), "Socket");
+        assert_eq!(smart_socket.get_description(), "A smart socket");
+        assert_eq!(smart_socket.power_consumption(), 100);
+        assert!(!smart_socket.is_on());
+
+        smart_socket.turn_on();
+        assert!(smart_socket.is_on());
+
+        smart_socket.turn_off();
+        assert!(!smart_socket.is_on());
+    }
+}

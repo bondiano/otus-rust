@@ -27,3 +27,15 @@ impl Device for SmartThermometer {
         &self.description
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_smart_thermometer() {
+        let smart_thermometer = SmartThermometer::new("Thermometer", "A smart thermometer");
+        assert_eq!(smart_thermometer.get_name(), "Thermometer");
+        assert_eq!(smart_thermometer.get_description(), "A smart thermometer");
+    }
+}

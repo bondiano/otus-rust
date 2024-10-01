@@ -58,7 +58,7 @@ impl Room {
     }
 
     pub fn add_device(&mut self, device: RoomDevice) -> Result<(), SmartHouseError> {
-        if self.devices.get(device.get_name()).is_some() {
+        if self.devices.contains_key(device.get_name()) {
             return Err(SmartHouseError::DeviceAlreadyExistsError(
                 device.get_name().to_string(),
             ));
@@ -69,7 +69,7 @@ impl Room {
     }
 
     pub fn remove_device(&mut self, name: &str) -> Result<(), SmartHouseError> {
-        if self.devices.get(name).is_none() {
+        if !self.devices.contains_key(name) {
             return Err(SmartHouseError::DeviceNotFoundError(name.to_string()));
         }
 
@@ -78,7 +78,9 @@ impl Room {
     }
 
     pub fn get_devices(&self) -> impl Iterator<Item = &RoomDevice> {
-        self.devices.values()
+        let mut devices = self.devices.values().collect::<Vec<&RoomDevice>>();
+        devices.sort_by(|a, b| a.get_name().cmp(b.get_name()));
+        devices.into_iter()
     }
 }
 
