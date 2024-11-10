@@ -1,5 +1,5 @@
 use smart_home::{
-    devices::{device::Device, smart_socket::SmartSocket, thermometer::SmartThermometer},
+    devices::{device::Device, socket::SmartSocket, thermometer::SmartThermometer},
     house::House,
     report_provider::DeviceInfoProvider,
 };

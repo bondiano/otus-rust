@@ -1,0 +1,17 @@
+[package]
+name = "smart-home_tcp-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+thiserror = "2.0.1"
+smart_home = { path = "../smart-home" }
+
+
+[[bin]]
+name = "socket-tcp-client"
+path = "src/bin/client.rs"
+
+[[bin]]
+name = "socket-tcp-server"
+path = "src/bin/server.rs"

@@ -1,4 +1,4 @@
-pub mod smart_socket;
+pub mod socket;
 pub mod thermometer;
 
 pub mod device;

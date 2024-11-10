@@ -73,7 +73,7 @@ impl House {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::devices::smart_socket::SmartSocket;
+    use crate::devices::socket::SmartSocket;
     use crate::report_provider::DeviceInfoProvider;
 
     struct TestDeviceInfoProvider;

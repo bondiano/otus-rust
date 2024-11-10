@@ -2,7 +2,7 @@ use std::fmt::Debug;
 use std::{collections::HashMap, fmt};
 
 use crate::{
-    devices::{device::Device, smart_socket::SmartSocket, thermometer::SmartThermometer},
+    devices::{device::Device, socket::SmartSocket, thermometer::SmartThermometer},
     errors::SmartHouseError,
 };
 

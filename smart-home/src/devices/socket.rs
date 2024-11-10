@@ -26,6 +26,10 @@ impl SmartSocket {
         self.is_on = false;
     }
 
+    pub fn switch(&mut self) {
+        self.is_on = !self.is_on;
+    }
+
     pub fn is_on(&self) -> bool {
         self.is_on
     }

@@ -1,0 +1,8 @@
+[package]
+name = "smart_home"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "reporter"
+path = "src/bin/reporter.rs"
