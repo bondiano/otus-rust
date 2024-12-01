@@ -29,6 +29,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "smart-home_udp-client"
+version = "0.1.0"
+dependencies = [
+ "smart_home",
+ "thiserror",
+]
+
+[[package]]
 name = "smart_home"
 version = "0.1.0"
 

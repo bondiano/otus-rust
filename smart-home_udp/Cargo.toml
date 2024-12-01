@@ -1,0 +1,21 @@
+[package]
+name = "smart-home_udp-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+thiserror = "2.0.1"
+smart_home = { path = "../smart-home" }
+
+
+[[bin]]
+name = "thermometer-udp-client"
+path = "src/bin/thermo_client.rs"
+
+[[bin]]
+name = "thermometer-generator-udp-server"
+path = "src/bin/thermo_generator_server.rs"
+
+[[bin]]
+name = "thermometer-udp-server"
+path = "src/bin/receiver_server.rs"
