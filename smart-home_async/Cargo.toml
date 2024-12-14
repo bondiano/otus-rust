@@ -1,0 +1,21 @@
+[package]
+name = "smart-home_async"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+thiserror = "2.0.7"
+smart_home = { path = "../smart-home" }
+tokio = { version = "1.42.0", features = ["full"] }
+
+[[bin]]
+name = "socket"
+path = "src/bin/socket.rs"
+
+[[bin]]
+name = "thermo"
+path = "src/bin/thermo.rs"
+
+[[bin]]
+name = "client"
+path = "src/bin/client.rs"
