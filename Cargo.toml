@@ -1,8 +1,5 @@
 [workspace]
 resolver = "2"
 
-members = [
-  "smart-home",
-  "smart-home_tcp",
-  "smart-home_udp",
-]
+members = ["smart-home", "smart-home_tcp", "smart-home_udp", "smart-home_async"]
+
