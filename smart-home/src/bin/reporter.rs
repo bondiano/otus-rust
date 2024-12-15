@@ -21,7 +21,7 @@ struct BorrowingDeviceInfoProvider<'a, 'b> {
     thermo: &'b SmartThermometer,
 }
 
-impl<'a, 'b> DeviceInfoProvider for BorrowingDeviceInfoProvider<'a, 'b> {
+impl DeviceInfoProvider for BorrowingDeviceInfoProvider<'_, '_> {
     fn get_devices(&self) -> Vec<&str> {
         vec![self.socket.get_name(), self.thermo.get_name()]
     }
