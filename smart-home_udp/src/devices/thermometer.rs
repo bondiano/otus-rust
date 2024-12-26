@@ -102,11 +102,11 @@ struct Temperature(Mutex<f32>);
 
 impl Temperature {
     pub fn get(&self) -> f32 {
-        *self.0.lock().unwrap()
+        *self.0.lock().expect("Failed to lock mutex")
     }
 
     pub fn set(&self, val: f32) {
-        *self.0.lock().unwrap() = val
+        *self.0.lock().expect("Failed to lock mutex") = val
     }
 }
 

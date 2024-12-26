@@ -64,7 +64,7 @@ mod tests {
     #[test]
     fn read_till_new_line_test() {
         let mut reader = Cursor::new(b"hello\r\nworld\r\n");
-        let result = read_till_rn(&mut reader).unwrap();
+        let result = read_till_rn(&mut reader).expect("Failed to read");
         assert_eq!(result, "hello\r\n");
     }
 }

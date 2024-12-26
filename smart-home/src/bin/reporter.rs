@@ -1,5 +1,6 @@
 use smart_home::{
     devices::{device::Device, socket::SmartSocket, thermometer::SmartThermometer},
+    errors::SmartHouseError,
     house::House,
     report_provider::DeviceInfoProvider,
 };
@@ -27,22 +28,26 @@ impl DeviceInfoProvider for BorrowingDeviceInfoProvider<'_, '_> {
     }
 }
 
-fn main() {
+fn main() -> miette::Result<()> {
     let mut house = House::new("sweet home");
-    house.add_room("bedroom").unwrap();
-    house.add_room("kitchen").unwrap();
-    house.add_room("bathroom").unwrap();
+    house.add_room("bedroom")?;
+    house.add_room("kitchen")?;
+    house.add_room("bathroom")?;
 
-    let bedroom = house.get_room_mut("bedroom").unwrap();
+    let bedroom = house
+        .get_room_mut("bedroom")
+        .ok_or(SmartHouseError::RoomNotFoundError("bedroom".to_string()))?;
 
     let socket1 = SmartSocket::new("Socket 1", "Smart socket 1", 1);
-    bedroom.add_device(socket1.clone().into()).unwrap();
+    bedroom.add_device(socket1.clone().into())?;
 
-    let kitchen = house.get_room_mut("kitchen").unwrap();
+    let kitchen = house
+        .get_room_mut("kitchen")
+        .ok_or(SmartHouseError::RoomNotFoundError("kitchen".to_string()))?;
     let socket2 = SmartSocket::new("Socket 2", "Smart socket 2", 2);
-    kitchen.add_device(socket2.clone().into()).unwrap();
+    kitchen.add_device(socket2.clone().into())?;
     let thermo = SmartThermometer::new("Thermo 1", "Smart thermometer 1");
-    kitchen.add_device(thermo.clone().into()).unwrap();
+    kitchen.add_device(thermo.clone().into())?;
 
     println!("House: {:?}", house);
 
@@ -60,4 +65,6 @@ fn main() {
     // Выводим отчёты на экран:
     println!("Report #1: {report1}");
     println!("Report #2: {report2}");
+
+    Ok(())
 }

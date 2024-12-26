@@ -47,7 +47,7 @@ impl TcpDevice<SmartSocket> for SocketServer {
     }
 
     fn get_listener(&self) -> TcpListener {
-        self.listener.try_clone().unwrap()
+        self.listener.try_clone().expect("Failed to clone listener")
     }
 
     fn handle(&mut self, stream: &mut TcpStream) -> Result<(), ProtocolError> {

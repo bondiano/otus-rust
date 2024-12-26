@@ -6,3 +6,7 @@ edition = "2021"
 [[bin]]
 name = "reporter"
 path = "src/bin/reporter.rs"
+
+[dependencies]
+miette = "7.4.0"
+thiserror = "2.0.9"

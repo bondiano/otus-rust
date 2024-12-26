@@ -70,65 +70,75 @@ mod tests {
         use std::net::{TcpListener, TcpStream};
         use std::thread;
 
-        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
-        let addr = listener.local_addr().unwrap();
+        let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind listener");
+        let addr = listener.local_addr().expect("Failed to get local address");
 
         let server_thread = thread::spawn(move || {
-            let (mut stream, _) = listener.accept().unwrap();
+            let (mut stream, _) = listener.accept().expect("Failed to accept connection");
 
             let mut buf = [0u8; 4];
-            stream.read_exact(&mut buf).unwrap();
+            stream
+                .read_exact(&mut buf)
+                .expect("Failed to read handshake");
             assert_eq!(&buf, CLIENT_HANDSHAKE);
 
-            stream.write_all(SERVER_HANDSHAKE).unwrap();
+            stream
+                .write_all(SERVER_HANDSHAKE)
+                .expect("Failed to write handshake");
 
             let mut buf = [0u8; 8]; // "switch\r\n" is 8 bytes
-            stream.read_exact(&mut buf).unwrap();
+            stream.read_exact(&mut buf).expect("Failed to read command");
             assert_eq!(&buf, b"switch\r\n");
         });
 
         // Client side
-        let mut stream = TcpStream::connect(addr).unwrap();
+        let mut stream = TcpStream::connect(addr).expect("Failed to connect to server");
         let command = TestCommand::Switch;
-        send_command(command, &mut stream).unwrap();
+        send_command(command, &mut stream).expect("Failed to send command");
 
-        server_thread.join().unwrap();
+        server_thread.join().expect("Failed to join server thread");
     }
 
     #[test]
     fn test_send_receive() {
-        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
-        let addr = listener.local_addr().unwrap();
+        let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind listener");
+        let addr = listener.local_addr().expect("Failed to get local address");
 
         // Spawn server thread
         let server_thread = thread::spawn(move || {
-            let (mut stream, _) = listener.accept().unwrap();
+            let (mut stream, _) = listener.accept().expect("Failed to accept connection");
 
             // Read client handshake
             let mut buf = [0u8; 4];
-            stream.read_exact(&mut buf).unwrap();
+            stream
+                .read_exact(&mut buf)
+                .expect("Failed to read handshake");
             assert_eq!(&buf, CLIENT_HANDSHAKE);
 
             // Send server handshake
-            stream.write_all(SERVER_HANDSHAKE).unwrap();
+            stream
+                .write_all(SERVER_HANDSHAKE)
+                .expect("Failed to write handshake");
 
             // Read command
             let mut buf = [0u8; 8]; // "switch\r\n" is 8 bytes
-            stream.read_exact(&mut buf).unwrap();
+            stream.read_exact(&mut buf).expect("Failed to read command");
             assert_eq!(&buf, b"switch\r\n");
 
             // Echo the command back as response
-            stream.write_all(b"switch\r\n").unwrap();
+            stream
+                .write_all(b"switch\r\n")
+                .expect("Failed to write response");
         });
 
         // Client side
-        let mut stream = TcpStream::connect(addr).unwrap();
+        let mut stream = TcpStream::connect(addr).expect("Failed to connect to server");
         let command = TestCommand::Switch;
 
-        send_command(command, &mut stream).unwrap();
-        let response = receive_response(&mut stream).unwrap();
+        send_command(command, &mut stream).expect("Failed to send command");
+        let response = receive_response(&mut stream).expect("Failed to receive response");
         assert_eq!(response, "switch\r\n");
 
-        server_thread.join().unwrap();
+        server_thread.join().expect("Failed to join server thread");
     }
 }

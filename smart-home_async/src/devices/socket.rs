@@ -204,7 +204,7 @@ mod tests {
 
         let server = SmartSocketServer::init(SERVER_ADDR, "test_socket", "test description")
             .await
-            .unwrap();
+            .expect("Failed to initialize server");
 
         tokio::spawn(async move {
             server.listen().await;
@@ -213,24 +213,44 @@ mod tests {
         // Give server time to start
         sleep(Duration::from_millis(100)).await;
 
-        let mut client = SmartSocketClient::init(SERVER_ADDR).await.unwrap();
+        let mut client = SmartSocketClient::init(SERVER_ADDR)
+            .await
+            .expect("Failed to initialize client");
 
-        let response = client.run_command(Command::Status).await.unwrap();
+        let response = client
+            .run_command(Command::Status)
+            .await
+            .expect("Failed to run command");
         assert!(matches!(response, Response::Disabled));
 
-        let response = client.run_command(Command::Switch).await.unwrap();
+        let response = client
+            .run_command(Command::Switch)
+            .await
+            .expect("Failed to run command");
         assert!(matches!(response, Response::Ok));
 
-        let response = client.run_command(Command::Status).await.unwrap();
+        let response = client
+            .run_command(Command::Status)
+            .await
+            .expect("Failed to run command");
         assert!(matches!(response, Response::Enabled));
 
-        let response = client.run_command(Command::Switch).await.unwrap();
+        let response = client
+            .run_command(Command::Switch)
+            .await
+            .expect("Failed to run command");
         assert!(matches!(response, Response::Ok));
 
-        let response = client.run_command(Command::Status).await.unwrap();
+        let response = client
+            .run_command(Command::Status)
+            .await
+            .expect("Failed to run command");
         assert!(matches!(response, Response::Disabled));
 
-        let response = client.run_command(Command::Unknown).await.unwrap();
+        let response = client
+            .run_command(Command::Unknown)
+            .await
+            .expect("Failed to run command");
         assert!(matches!(response, Response::Error));
     }
 }
