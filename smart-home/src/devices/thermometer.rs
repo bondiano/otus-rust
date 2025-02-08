@@ -23,6 +23,7 @@ impl Device for SmartThermometer {
     fn get_name(&self) -> &str {
         &self.name
     }
+
     fn get_description(&self) -> &str {
         &self.description
     }

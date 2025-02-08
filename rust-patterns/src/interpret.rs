@@ -26,18 +26,18 @@ impl<'a> Interpreter<'a> {
         self.it.next()
     }
 
-    fn parse_token(&mut self, token: Token) -> () {
+    fn parse_token(&mut self, token: Token) {
         match token {
             '(' | '+' | ' ' | ')' => (),
-            token if token.is_digit(10) => self.read_number(token.to_digit(10).unwrap() as i32),
+            token if token.is_ascii_digit() => self.read_number(token.to_digit(10).unwrap() as i32),
             _ => panic!("Invalid token: {}", token),
         }
     }
 
-    fn read_number(&mut self, current: i32) -> () {
+    fn read_number(&mut self, current: i32) {
         let mut number = current;
         while let Some(c) = self.next_token() {
-            if c.is_digit(10) {
+            if c.is_ascii_digit() {
                 number = number * 10 + (c as i32 - '0' as i32);
             } else {
                 break;
@@ -55,5 +55,11 @@ mod tests {
     fn test_interpret() {
         let mut interpreter = Interpreter::new("(+ 1 2)");
         assert_eq!(interpreter.interpret(), 3);
+    }
+
+    #[test]
+    fn test_interpret_complex() {
+        let mut interpreter = Interpreter::new("(+ 1 2 3 4 5)");
+        assert_eq!(interpreter.interpret(), 15);
     }
 }
