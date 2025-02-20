@@ -64,7 +64,7 @@ impl TcpDevice<SmartSocket> for SocketServer {
             }
             SocketCommand::Status => {
                 let status = if self.device.is_on() { "on" } else { "off" };
-                format!("status: {}\r\n", status)
+                format!("{}\r\n", status)
             }
         };
 

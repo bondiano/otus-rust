@@ -30,8 +30,8 @@ pub enum ProtocolError {
     #[error("Invalid response")]
     InvalidResponse,
 
-    #[error("Bad handshake")]
-    BadHandshake,
+    #[error("Bad handshake: {0}")]
+    BadHandshake(String),
 }
 
 pub fn read_till_rn<Reader: Read>(reader: &mut Reader) -> Result<String, ProtocolError> {

@@ -7,6 +7,7 @@ members = [
   "smart-home_udp",
   "smart-home_async",
   "smart-home_web",
+  "smart-home_gui",
   "oop-patterns",
   "rust-patterns",
 ]

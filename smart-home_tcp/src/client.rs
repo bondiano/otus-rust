@@ -7,16 +7,20 @@ use crate::protocol::{
 fn send_handshake<Stream: Write + Read>(stream: &mut Stream) -> Result<(), ProtocolError> {
     stream
         .write_all(CLIENT_HANDSHAKE)
-        .map_err(|_| ProtocolError::BadHandshake)?;
-    stream.flush().map_err(|_| ProtocolError::BadHandshake)?;
+        .map_err(|e| ProtocolError::BadHandshake(e.to_string()))?;
+    stream
+        .flush()
+        .map_err(|e| ProtocolError::BadHandshake(e.to_string()))?;
 
     let mut buf = vec![0; SERVER_HANDSHAKE.len()];
     stream
         .read_exact(&mut buf)
-        .map_err(|_| ProtocolError::BadHandshake)?;
+        .map_err(|e| ProtocolError::BadHandshake(e.to_string()))?;
 
     if buf != *SERVER_HANDSHAKE {
-        return Err(ProtocolError::BadHandshake);
+        return Err(ProtocolError::BadHandshake(
+            "Handshake mismatch".to_string(),
+        ));
     }
     Ok(())
 }
@@ -28,6 +32,7 @@ pub fn send_command<Stream: Write + Read>(
     send_handshake(stream)?;
     let binding = command.to_string();
     let bytes = binding.as_bytes();
+
     stream
         .write_all(bytes)
         .map_err(|_| ProtocolError::CouldNotSend)?;

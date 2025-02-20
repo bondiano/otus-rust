@@ -18,7 +18,7 @@ pub enum ConnectError {
 }
 
 fn try_handshake(mut stream: TcpStream) -> Result<TcpStream, ConnectError> {
-    let mut buf = [0; 4];
+    let mut buf = [0; CLIENT_HANDSHAKE.len()];
     stream.read_exact(&mut buf)?;
     if buf != *CLIENT_HANDSHAKE {
         return Err(ConnectError::BadHandshake);
