@@ -3502,6 +3502,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "smart-home_ffi"
+version = "0.1.0"
+dependencies = [
+ "libloading 0.8.6",
+ "smart-home_tcp-client",
+]
+
+[[package]]
 name = "smart-home_gui"
 version = "0.1.0"
 dependencies = [
